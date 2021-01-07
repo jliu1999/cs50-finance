@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Portfolio
+{% endblock %}
+
+{% block main %}
+    <table style="width:100%" class="table table-striped">
+        <tr>
+            <th>Symbol</th>
+            <th>Name</th>
+            <th>Shares</th>
+            <th>Current Price</th>
+            <th>TOTAL</th>
+            <th colspan="2" style="text-align:center">Action</th>
+        </tr>
+        {% for port in portfolio %}
+            <!-- If a stock's total share is 0, don't display it in portfolio table -->
+            {% if port["SUM(shares)"] != 0 %}
+                <tr>
+                    <td>{{port["symbol"]}}</td>
+                    <td>{{port["name"]}}</td>
+                    <td>{{port["SUM(shares)"]}}</td>
+                    <td>${{port["price"]}}</td>
+                    <td>${{port["total"]}}</td>
+                    <td style="text-align:center"><form action="/buy" method="get"><button class="btn btn-primary" type="submit" name="symbol" value="{{port["symbol"]}}">Buy</button></form></td>
+                    <td style="text-align:center"><form action="/sell" method="get"><button class="btn btn-primary" type="submit" name="symbol" value="{{port["symbol"]}}">Sell</button></form></td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+        <tr>
+            <td colspan="4">CASH</td>
+            <td>{{cash}}</td>
+        </tr>
+        <tr>
+            <td colspan="4"></td>
+            <td>{{sum}}</td>
+        </tr>
+    </table>
+{% endblock %}

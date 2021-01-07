@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Buy
+{% endblock %}
+
+{% block main %}
+    <form action="/buy" method="post">
+        <!-- If request comes from index page, then fill in the stock symbol field automatically, and ask for shares -->
+        {% if symbol %}
+            <div class="form-group">
+                <input class="form-control" name="symbol" value="{{symbol}}" type="text">
+            </div>
+
+        <!-- If request comes from navigation bar, then ask for stock symbol and shares -->
+        {% else %}
+            <div class="form-group">
+                <input class="form-control" name="symbol" placeholder="Stock Symbol" type="text">
+            </div>
+        {% endif %}
+
+        <div class="form-group">
+            <input autocomplete="off" class="form-control" min="0" name="shares" placeholder="Number of Shares" type="number">
+        </div>
+        <button class="btn btn-primary" type="submit">Buy</button>
+    </form>
+{% endblock %}
